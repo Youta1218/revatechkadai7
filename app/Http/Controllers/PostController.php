@@ -24,4 +24,12 @@ class PostController extends Controller
     {
     return view('posts/create');
     }
+    public function store(Request $request,Post $post)
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+          //上と同じ意味になる書き方->$post->create($input);
+        return redirect('/posts/'. $post->id);
+        //dd($request->all());
+    }
 }
