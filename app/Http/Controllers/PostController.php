@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Http\Requests;
+use App\Http\Requests\PostRequest;
 use App\Models\Post;
+
+
+
 
 class PostController extends Controller
 {
@@ -19,5 +23,17 @@ class PostController extends Controller
         //dd($post);
         return view('posts.show')->with(['post' => $post]);
      //'post'はbladeファイルで使う変数。中身は$postはid=1のPostインスタンス。
+    }
+    public function create()
+    {
+    return view('posts.create');
+    }
+    public function store(PostRequest $request,Post $post)
+    {
+        $input = $request['post'];
+        $post->fill($input)->save();
+          //上と同じ意味になる書き方->$post->create($input);
+        return redirect('/posts/'. $post->id);
+        //dd($request->all());
     }
 }
